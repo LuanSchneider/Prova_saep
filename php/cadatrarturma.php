@@ -9,10 +9,9 @@ $descricao = $_POST['descricao'];
 $turma = $_POST['turma'];
 $aluno = $_POST['aluno'];
 $prioridade = $_POST['prioridade'];
-
-$sql = "INSERT INTO turma (descricao, turma, aluno, prioridade) VALUES (?, ?, ?, ?)";
+$status = 'para fazer';
+$sql = "INSERT INTO turma (descricao, turma, aluno, prioridade,`status`) VALUES ('$descricao', '$turma', '$aluno', '$prioridade','para fazer')";
 $stmt = $cnn->prepare($sql);
-$stmt->bind_param("ssss", $descricao, $turma, $aluno, $prioridade);
 
 if ($stmt->execute()) {
     echo "Turma cadastrada com sucesso!";

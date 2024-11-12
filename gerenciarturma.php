@@ -27,14 +27,41 @@
             <p>Descrição: " . $row["descricao"] . "</p>
             <p>Aluno: " . $row["aluno"] . "</p>
             <p>Prioridade: " . $row["prioridade"] . "</p>
-    <botton onclick=>
-            
+    
+ <form method='POST' action='php/atualizarStatus.php?id=" . $row["id"] . "'>
+    
+   <select name='status' id='status'>
+        <option value='fazer'>fazer</option>
+        <option value='concluido'>concluido</option>
+        <option value='cancelado'>cancelado</option>
+        <option value='para fazer'>para fazer</option>
+        <option value='em andamento'>em andamento</option>
+        <option value='cancelado'>cancelado</option>
+      
+        
+    </select>
+    <button type='submit'>Atualizar Status</button>
+</form>
+<button>
+    <a href='php/excluir.php?id=" . $row["id"] . "'>Excluir</a>
+</button>
+<button>
+    <a href='php/editar.php?id=" . $row["id"] . "'>Editar</a>
         </div>
         ";
+        
+    }
+    function atualizarStatus($id) {
+        $cnn = new mysqli("localhost", "admin", "admin", "saep");
+        $status = $_POST['status'];
+        $sql = "UPDATE turma SET `status` = '$status' WHERE id = $id";
+        $cnn->query($sql);
+        $cnn->close();
     }
     $cnn->close();
     echo'</select>';
     ?>
+    
     
 </body>
 </html>
