@@ -1,67 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gerenciamento de Tarefas</title>
+    <link rel="stylesheet" href="css/gerenciarturma.css">
 </head>
+
 <body>
-<header>
-        Gerenciador de alunos
-        <button onclick="location.href='index.php'"> cadastrar aluno</button>
-        <button onclick="location.href='cadatrarturma.php'"> cadastrar turma</button>
-        <button onclick="location.href='gerenciarturma.php'"> gerenciar turma</button>
+    <header>
+        <h1>Gerenciamento de Tarefas</h1>
+        <nav>
+            <ul>
+                <li><a href="cadastro-usuarios.php">Cadastro de Usuários</a></li>
+                <li><a href="cadastro-tarefas.php">Cadastro de Tarefas</a></li>
+                <li><a href="gerenciar-tarefas.php">Gerenciar Tarefas</a></li>
+            </ul>
+        </nav>
     </header>
-    <?php
-    echo'<h2>Turmas</h2>';
-   
-    $cnn = new mysqli("localhost", "admin", "admin", "saep");
-    $sql = "SELECT id, turma , descricao, aluno, prioridade FROM turma";
-    $result = $cnn->query($sql);
-    while ($row = $result->fetch_assoc()) {
-   
-    
-        echo"
-        <div>
-            <h3>Turma: " . $row["turma"] . "</h3>
-            <p>Descrição: " . $row["descricao"] . "</p>
-            <p>Aluno: " . $row["aluno"] . "</p>
-            <p>Prioridade: " . $row["prioridade"] . "</p>
-    
- <form method='POST' action='php/atualizarStatus.php?id=" . $row["id"] . "'>
-    
-   <select name='status' id='status'>
-        <option value='fazer'>fazer</option>
-        <option value='concluido'>concluido</option>
-        <option value='cancelado'>cancelado</option>
-        <option value='para fazer'>para fazer</option>
-        <option value='em andamento'>em andamento</option>
-        <option value='cancelado'>cancelado</option>
-      
-        
-    </select>
-    <button type='submit'>Atualizar Status</button>
-</form>
-<button>
-    <a href='php/excluir.php?id=" . $row["id"] . "'>Excluir</a>
-</button>
-<button>
-    <a href='php/editar.php?id=" . $row["id"] . "'>Editar</a>
+
+    <h2>Turmas</h2>
+    <div class="turmas-container">
+        <!-- Coluna Para Fazer -->
+        <div id="para-fazer" class="status-column">
+            <h3>Para Fazer</h3>
+            <?php
+            $cnn = new mysqli("localhost", "admin", "admin", "saep");
+            $sql = "SELECT id, turma, descricao, aluno, prioridade, `status` FROM turma WHERE `status` = 'para fazer'";
+            $result = $cnn->query($sql);
+
+            while ($row = $result->fetch_assoc()) {
+                include 'php/turma_card.php';
+            }
+            ?>
         </div>
-        ";
-        
+
+        <!-- Coluna Em Andamento -->
+        <div id="em-andamento" class="status-column">
+            <h3>Em Andamento</h3>
+            <?php
+            $sql = "SELECT id, turma, descricao, aluno, prioridade, `status` FROM turma WHERE `status` = 'em andamento'";
+            $result = $cnn->query($sql);
+
+            while ($row = $result->fetch_assoc()) {
+                include 'php/turma_card.php';
+            }
+            ?>
+        </div>
+
+        <!-- Coluna Concluído -->
+        <div id="concluido" class="status-column">
+            <h3>Concluído</h3>
+            <?php
+            $sql = "SELECT id, turma, descricao, aluno, prioridade, `status` FROM turma WHERE `status` = 'concluido'";
+            $result = $cnn->query($sql);
+
+            while ($row = $result->fetch_assoc()) {
+                include 'php/turma_card.php';
+            }
+            $cnn->close();
+            ?>
+        </div>
+    </div>
+    <script>
+    function editarTurma(id) {
+        document.getElementById(`turma-${id}`).disabled = false;
+        document.getElementById(`descricao-${id}`).disabled = false;
+        document.getElementById(`aluno-${id}`).disabled = false;
+        document.getElementById(`prioridade-${id}`).disabled = false;
+        document.getElementById(`status-${id}`).disabled = false;
+
+        // Mostra o botão Salvar e oculta o botão Editar
+        document.getElementById(`salvar-${id}`).style.display = 'inline-block';
     }
-    function atualizarStatus($id) {
-        $cnn = new mysqli("localhost", "admin", "admin", "saep");
-        $status = $_POST['status'];
-        $sql = "UPDATE turma SET `status` = '$status' WHERE id = $id";
-        $cnn->query($sql);
-        $cnn->close();
+
+    function salvarTurma(id) {
+        const turma = document.getElementById(`turma-${id}`).value;
+        const descricao = document.getElementById(`descricao-${id}`).value;
+        const aluno = document.getElementById(`aluno-${id}`).value;
+        const prioridade = document.getElementById(`prioridade-${id}`).value;
+        const status = document.getElementById(`status-${id}`).value;
+
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('turma', turma);
+        formData.append('descricao', descricao);
+        formData.append('aluno', aluno);
+        formData.append('prioridade', prioridade);
+        formData.append('status', status);
+
+        fetch('php/atualizarTurma.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            location.reload(); // Recarrega para atualizar a posição com base no novo status
+        })
+        .catch(error => {
+            console.error('Erro ao atualizar turma:', error);
+        });
     }
-    $cnn->close();
-    echo'</select>';
-    ?>
-    
-    
+</script>
+
 </body>
+
 </html>

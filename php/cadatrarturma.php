@@ -10,8 +10,15 @@ $turma = $_POST['turma'];
 $aluno = $_POST['aluno'];
 $prioridade = $_POST['prioridade'];
 $status = 'para fazer';
-$sql = "INSERT INTO turma (descricao, turma, aluno, prioridade,`status`) VALUES ('$descricao', '$turma', '$aluno', '$prioridade','para fazer')";
+
+$sql = "INSERT INTO turma (descricao, turma, aluno, prioridade, `status`) VALUES (?, ?, ?, ?, ?)";
 $stmt = $cnn->prepare($sql);
+
+if ($stmt === false) {
+    die("Erro ao preparar a query: " . $cnn->error);
+}
+
+$stmt->bind_param("sssss", $descricao, $turma, $aluno, $prioridade, $status);
 
 if ($stmt->execute()) {
     echo "Turma cadastrada com sucesso!";
@@ -21,5 +28,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $cnn->close();
-
 ?>
