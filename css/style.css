@@ -5,3 +5,45 @@
     font-family: 'Poppins', sans-serif;
     
 }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0056b3;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+
+header h1 {
+    color: #fff;
+    font-size: 24px;
+    background: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px; 
+    background: none;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: color 0.3s;
+    background: transparent;
+}
+
+nav ul li a:hover {
+    color: #d1e7ff; 
+}

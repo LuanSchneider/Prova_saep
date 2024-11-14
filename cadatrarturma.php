@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 <header>
-        Gerenciador de alunos
-        <button onclick="location.href='index.php'"> cadastrar aluno</button>
-        <button onclick="location.href='cadatrarturma.php'"> cadastrar turma</button>
-        <button onclick="location.href='gerenciarturma.php'"> gerenciar turma</button>
+        <h1>Gerenciamento de Tarefas</h1>
+        <nav>
+            <ul>
+                <li><a href="index.php">Cadastro de aluno</a></li>
+                <li><a href="cadatrarturma.php">Cadastro de turma</a></li>
+                <li><a href="gerenciarturma.php">Gerenciar turma</a></li>
+            </ul>
+        </nav>
     </header>
     <form action="php/cadatrarturma.php" method="post">
         <label for="descricao">descrição</label>

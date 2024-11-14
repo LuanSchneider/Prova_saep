@@ -13,16 +13,16 @@
         <h1>Gerenciamento de Tarefas</h1>
         <nav>
             <ul>
-                <li><a href="cadastro-usuarios.php">Cadastro de Usuários</a></li>
-                <li><a href="cadastro-tarefas.php">Cadastro de Tarefas</a></li>
-                <li><a href="gerenciar-tarefas.php">Gerenciar Tarefas</a></li>
+                <li><a href="index.php">Cadastro de aluno</a></li>
+                <li><a href="cadatrarturma.php">Cadastro de turma</a></li>
+                <li><a href="gerenciarturma.php">Gerenciar turma</a></li>
             </ul>
         </nav>
     </header>
 
     <h2>Turmas</h2>
     <div class="turmas-container">
-        <!-- Coluna Para Fazer -->
+    
         <div id="para-fazer" class="status-column">
             <h3>Para Fazer</h3>
             <?php
@@ -36,7 +36,7 @@
             ?>
         </div>
 
-        <!-- Coluna Em Andamento -->
+       
         <div id="em-andamento" class="status-column">
             <h3>Em Andamento</h3>
             <?php
@@ -49,7 +49,7 @@
             ?>
         </div>
 
-        <!-- Coluna Concluído -->
+      
         <div id="concluido" class="status-column">
             <h3>Concluído</h3>
             <?php
@@ -71,7 +71,7 @@
         document.getElementById(`prioridade-${id}`).disabled = false;
         document.getElementById(`status-${id}`).disabled = false;
 
-        // Mostra o botão Salvar e oculta o botão Editar
+     
         document.getElementById(`salvar-${id}`).style.display = 'inline-block';
     }
 
@@ -97,7 +97,7 @@
         .then(response => response.text())
         .then(data => {
             alert(data);
-            location.reload(); // Recarrega para atualizar a posição com base no novo status
+            location.reload(); 
         })
         .catch(error => {
             console.error('Erro ao atualizar turma:', error);
